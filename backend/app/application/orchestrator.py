@@ -78,7 +78,9 @@ class RuleBasedOrchestrator:
                 alpha = self._revision_cfg.alpha * 0.5
                 reasons.append(f"新息平稳（{ctx.innovation:+.3f} m），温和修正 α={alpha:.2f}")
         elif degraded:
-            reasons.append("降级状态下关闭协同修正，仅输出模型原始预测")
+            # 降级态保留弱修正（alpha*0.3），避免双曲线完全重叠——演示卖点不能丢
+            alpha = self._revision_cfg.alpha * 0.3 if self._revision_cfg.enabled else 0.0
+            reasons.append(f"降级状态，弱修正 α={alpha:.2f}（保留新息校正但降低强度）")
         else:
             reasons.append("协同修正已关闭（配置 revision.enabled=false）")
 

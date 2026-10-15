@@ -17,3 +17,6 @@ CLUADE.md
 *.sqlite
 *.parquet
 data/
+# sdd 目录整体不上传
+
+sdd/

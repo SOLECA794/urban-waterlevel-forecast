@@ -95,6 +95,9 @@ class RollingSimGenerator:
         self._lock = threading.Lock()
         self._state: dict = {}
         self._events: dict = {}   # station_id -> [event dict]
+        # 持久化注入事件（重启不丢，录视频不用每次重新注入）
+        self._events_file = "data/injected_events.json"
+        self._load_events()
         self._event_seq = 0
 
     # ------------------------------------------------------------------
@@ -301,6 +304,7 @@ class RollingSimGenerator:
                 "injected_at": now,
             }
             self._events.setdefault(station_id, []).append(event)
+            self._save_events()
             self._write_future_truth(station_id, start, shape)
         logger.info(
             "extreme rain event injected: station=%s intensity=%s event=%s",
@@ -327,6 +331,27 @@ class RollingSimGenerator:
             except Exception:
                 logger.exception("extend future truth failed; rewriting with event only")
         add.to_parquet(path, index=False)
+
+    def _load_events(self):
+        try:
+            import json, os
+            if os.path.exists(self._events_file):
+                with open(self._events_file, "r", encoding="utf-8") as fp:
+                    self._events = json.load(fp)
+                # 恢复序号
+                self._event_seq = max((ev.get("event_id", 0) for evs in self._events.values() for ev in evs), default=0)
+                logger.info("injected events restored", extra={"count": sum(len(v) for v in self._events.values())})
+        except Exception:
+            pass
+
+    def _save_events(self):
+        try:
+            import json, os
+            os.makedirs(os.path.dirname(self._events_file), exist_ok=True)
+            with open(self._events_file, "w", encoding="utf-8") as fp:
+                json.dump(self._events, fp, ensure_ascii=False, default=str)
+        except Exception:
+            pass
 
     def active_events(self, limit: int = 20) -> list:
         """当前生效/近期注入的事件（注入接口 GET 用）。"""

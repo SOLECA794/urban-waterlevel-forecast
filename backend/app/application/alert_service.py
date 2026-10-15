@@ -62,7 +62,9 @@ class AlertService:
         thresholds, used_default = self.thresholds_of(station)
         peak = max(p.level for p in points) if points else 0.0
         peak_time = next((p.t for p in points if p.level == peak), None)
-        t_now = forecast.predict_time
+        # 起报时刻对齐预测曲线第一个点（start_ts），而非 datetime.now()——
+        # 否则观测样本滞后时前半段预测落在"现在"之前，提前量被截为 0
+        t_now = points[0].t if points else forecast.predict_time
         is_reference = lead_hours >= 6
 
         level = self.classify(peak, thresholds)
