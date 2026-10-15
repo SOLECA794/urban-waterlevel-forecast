@@ -1,1 +1,0 @@
-import{b as o,N as r}from"./index-CqGGIiX_.js";function s(i,t=3e4){let e;const n=()=>{document.hidden||i()};o(()=>{i(),e=window.setInterval(n,t),document.addEventListener("visibilitychange",n)}),r(()=>{e&&window.clearInterval(e),document.removeEventListener("visibilitychange",n)})}export{s as u};
