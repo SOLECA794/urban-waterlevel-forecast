@@ -20,3 +20,5 @@ data/
 # sdd 目录整体不上传
 
 sdd/
+
+*.zip
