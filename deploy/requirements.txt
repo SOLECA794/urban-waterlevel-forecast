@@ -1,0 +1,19 @@
+# --- Web ---
+fastapi>=0.115
+uvicorn[standard]>=0.30
+pydantic>=2.9
+pydantic-settings>=2.5
+
+# --- 数据 ---
+sqlalchemy>=2.0
+pandas>=2.2
+numpy>=1.26
+pyarrow>=16          # Parquet 读写
+duckdb>=1.0          # 分析查询（直接读 Parquet，零服务）
+
+# --- 调度/配置 ---
+apscheduler>=3.10
+pyyaml>=6.0
+
+# 兼容 Python >= 3.11（3.11 / 3.12 / 3.13 均有官方 wheel，安装零编译）
+# 硬约束：不含 prophet / torch / celery / redis / 时序数据库 / 向量数据库

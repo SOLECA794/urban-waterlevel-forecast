@@ -1,0 +1,80 @@
+# 监测点配置（6 个，具备不同响应特征 —— 07 §3.2 原型层验收）
+# 阈值口径：水位高程 m；storm: none/light/moderate/heavy 控制模拟降雨强度
+stations:
+  - station_code: S001
+    station_name: 站前路低洼段
+    location: 站前路与建设大街交叉口
+    kind: low-lying            # 低洼易涝
+    threshold_blue: 1.6
+    threshold_yellow: 1.9
+    threshold_orange: 2.2
+    threshold_red: 2.5
+    base_level: 1.2
+    response_k: 0.008          # 退水慢，易积水
+    storm: heavy               # 演示主力：暴雨上涨 → 黄/橙预警
+    enabled: true
+
+  - station_code: S002
+    station_name: 建设路下穿隧道
+    location: 建设路铁路下穿
+    kind: low-lying
+    threshold_blue: 1.5
+    threshold_yellow: 1.8
+    threshold_orange: 2.1
+    threshold_red: 2.4
+    base_level: 1.0
+    response_k: 0.008
+    storm: heavy
+    enabled: true
+
+  - station_code: S003
+    station_name: 城东河河道断面
+    location: 城东河桥上游 200m
+    kind: river                # 河道断面
+    threshold_blue: 2.0
+    threshold_yellow: 2.4
+    threshold_orange: 2.8
+    threshold_red: 3.2
+    base_level: 1.6
+    response_k: 0.012
+    storm: moderate
+    enabled: true
+
+  - station_code: S004
+    station_name: 老城十字街
+    location: 老城区中山路十字街口
+    kind: low-lying
+    threshold_blue: 1.7
+    threshold_yellow: 2.0
+    threshold_orange: 2.3
+    threshold_red: 2.6
+    base_level: 1.3
+    response_k: 0.010
+    storm: light
+    enabled: true
+
+  - station_code: S005
+    station_name: 新区主干道
+    location: 高新区创新大道
+    kind: road                 # 一般道路
+    threshold_blue: 1.8
+    threshold_yellow: 2.2
+    threshold_orange: 2.6
+    threshold_red: 3.0
+    base_level: 1.4
+    response_k: 0.014          # 排水好，退水快
+    storm: light
+    enabled: true
+
+  - station_code: S006
+    station_name: 工业园区雨水泵站
+    location: 工业园区纬三路泵站
+    kind: pump
+    threshold_blue: 1.9
+    threshold_yellow: 2.3
+    threshold_orange: 2.7
+    threshold_red: 3.1
+    base_level: 1.5
+    response_k: 0.012
+    storm: moderate
+    enabled: true

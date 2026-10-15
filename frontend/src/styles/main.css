@@ -1,0 +1,123 @@
+/* 视觉规范（06 §6 + 精修设计 08 §2）：主色防汛蓝 #1E6FA8；预警四色；状态色语义与预警四色区分 */
+:root {
+  --brand: #1e6fa8;
+  --brand-light: #eaf3fa;
+  --brand-dark: #165a8c;
+  --alert-blue: #2196f3;
+  --alert-yellow: #ffc107;
+  --alert-orange: #ff9800;
+  --alert-red: #f44336;
+  --status-ok: #4caf50;
+  --status-gray: #9e9e9e;
+  --status-error: #f44336;
+  --bg: #f5f7fa;
+  --line: #e6ebf0;
+  --text-main: #26323d;
+  --text-sub: #5a6b7b;
+  --text-muted: #909399;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text-main);
+  background: var(--bg);
+}
+
+.page { padding: 16px 20px; }
+
+.page-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 14px;
+  color: var(--text-main);
+}
+
+/* 区块标题（H2，精修 §2.2） */
+.h2-title { font-size: 15px; font-weight: 600; color: var(--text-main); }
+
+.card-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+
+.muted { color: var(--text-muted); font-size: 12px; }
+
+/* 预警四色工具类 */
+.lv-blue { color: var(--alert-blue); }
+.lv-yellow { color: var(--alert-yellow); }
+.lv-orange { color: var(--alert-orange); }
+.lv-red { color: var(--alert-red); }
+
+.lv-tag { border-radius: 3px; padding: 1px 8px; font-size: 12px; color: #fff; }
+.lv-tag.blue { background: var(--alert-blue); }
+.lv-tag.yellow { background: var(--alert-yellow); color: #6d4c00; }
+.lv-tag.orange { background: var(--alert-orange); }
+.lv-tag.red { background: var(--alert-red); }
+
+/* 参考级预警：浅色/描边样式（V2.1），与有效预警明显区分 */
+.lv-tag.ref {
+  background: #fff;
+  border: 1px dashed currentColor;
+  opacity: 0.75;
+}
+.lv-tag.ref.blue { color: var(--alert-blue); }
+.lv-tag.ref.yellow { color: var(--alert-yellow); }
+.lv-tag.ref.orange { color: var(--alert-orange); }
+.lv-tag.ref.red { color: var(--alert-red); }
+
+.chart-box { width: 100%; height: 420px; }
+
+/* ---- 精修 §2 通用类 ---- */
+
+/* 卡片左侧等级色条（预警点位卡/重点卡） */
+.side-stripe { position: relative; }
+.side-stripe::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--stripe-color, var(--line));
+  border-radius: 6px 0 0 6px;
+}
+
+/* 提前量时间轴示意（精修 §3.2.3，纯 CSS） */
+.lead-axis { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 12px; color: var(--text-sub); }
+.lead-axis .node { display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
+.lead-axis .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.lead-axis .bar { flex: 1; height: 2px; background: var(--line); position: relative; min-width: 40px; }
+.lead-axis .bar::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: -3px;
+  border-left: 6px solid var(--text-muted);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+/* 工具风险等级分组块（精修 §3.4） */
+.tool-group { margin-bottom: 10px; }
+.tool-group .group-head {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-sub);
+  padding: 4px 0;
+  border-bottom: 1px dashed var(--line);
+  margin-bottom: 6px;
+}
+.tool-group .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* 路由淡入过渡（精修 §4.3：0.2s） */
+.fade-enter-active, .fade-leave-active { transition: opacity 0.2s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+
+/* 红色预警脉动（一张图/卡片重点提示） */
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.45); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0); }
+}
+.pulse-red { animation: pulse-red 1.6s infinite; }
