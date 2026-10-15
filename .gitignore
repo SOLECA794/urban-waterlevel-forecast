@@ -22,3 +22,7 @@ data/
 sdd/
 
 *.zip
+
+Git4GenThinking/
+.workbuddy/
+.ossutil_checkpoint
